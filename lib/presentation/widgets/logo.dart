@@ -1,4 +1,4 @@
-import 'package:facebook_replica/constants.dart';
+import 'package:facebook_replica/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget with PreferredSizeWidget {
