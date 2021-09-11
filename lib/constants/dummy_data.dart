@@ -15,7 +15,7 @@ List<Map> POSTS = [
     'likes': 5,
     'comments': 5,
     'is_liked': true,
-    'timestamp': 0,
+    'timestamp': 1631331046,
     'user_id': 1
   },
   {

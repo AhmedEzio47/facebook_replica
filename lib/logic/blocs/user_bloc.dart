@@ -13,7 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     switch (event.type) {
       case UserEventType.request:
         this.add(UserEvent(type: UserEventType.loading));
-        List<UserModel>? user = await UserRepo().getUser(event.data);
+        UserModel? user = await UserRepo().getUser(event.data);
 
         if (user != null)
           this.add(UserEvent(type: UserEventType.ready, data: user));

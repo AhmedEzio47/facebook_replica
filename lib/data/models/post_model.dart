@@ -26,7 +26,8 @@ class PostModel {
       likes: rawPost['likes'] ?? 0,
       comments: rawPost['comments'] ?? 0,
       isLiked: rawPost['is_liked'] ?? false,
-      timestamp: DateTime.fromMillisecondsSinceEpoch(rawPost['timestamp']),
+      timestamp:
+          DateTime.fromMillisecondsSinceEpoch(rawPost['timestamp'] * 1000),
       userId: rawPost['user_id'],
     );
   }

@@ -12,7 +12,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Stream<PostState> mapEventToState(PostEvent event) async* {
     switch (event.type) {
       case PostEventType.request:
-        this.add(PostEvent(type: PostEventType.loading));
+        for (int i = 0; i < 5; i++) {
+          yield PostState(
+            isLoading: true,
+          );
+        }
         List<PostModel>? posts = await PostsRepo().getPosts();
 
         if (posts != null)
@@ -22,7 +26,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         break;
       case PostEventType.loading:
-        yield PostState(isLoading: true);
+        for (int i = 0; i < 5; i++) {
+          yield PostState(
+            isLoading: true,
+          );
+        }
         break;
       case PostEventType.ready:
         for (var post in (event.data as List)) {

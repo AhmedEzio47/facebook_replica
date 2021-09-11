@@ -1,5 +1,7 @@
+import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/logic/blocs/post_bloc.dart';
+import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/presentation/widgets/logo.dart';
@@ -26,25 +28,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBGColor,
       appBar: Logo(
         width: MediaQuery.of(context).size.width,
         height: 60,
       ),
-      body: BlocConsumer<PostBloc, PostState>(
-        listener: (context, postState) {
-          setState(() {
-            _posts.add(postState);
-          });
-        },
-        builder: (context, state) => ListView.builder(
-            itemCount: _posts.length,
-            itemBuilder: (context, index) {
-              return PostItem(
-                key: Key((_posts[index].post?.id ?? 0).toString()),
-                postState: _posts[index],
-              );
-            }),
-      ),
+      body: BlocListener<PostBloc, PostState>(
+          listener: (context, postState) {
+            if (postState.post != null) {
+              _posts.removeWhere((element) => element.post == null);
+            }
+            setState(() {
+              _posts.add(postState);
+            });
+          },
+          child: ListView.builder(
+              itemCount: _posts.length,
+              itemBuilder: (context, index) {
+                return BlocProvider(
+                  create: (context) => UserBloc(),
+                  child: PostItem(
+                    key: Key((_posts[index].post?.id ?? 0).toString()),
+                    postState: _posts[index],
+                  ),
+                );
+              })),
     );
   }
 }
