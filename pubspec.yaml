@@ -16,6 +16,8 @@ dependencies:
   flutter_bloc: ^7.2.0
   intl: ^0.17.0
   font_awesome_flutter: ^9.1.0
+  readmore: ^2.1.0
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +29,4 @@ flutter:
   assets:
     - assets/images/
     - assets/images/users/
+    - assets/images/posts/

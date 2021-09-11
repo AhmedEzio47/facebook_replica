@@ -5,8 +5,18 @@ List<Map> POSTS = [
   {
     'id': 1,
     'text':
-        '''Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-           Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+        'Welcome to Facebook replica mad using BLoC, an amazing design pattern and state providing tool.',
+    'images': [kImage1],
+    'timestamp': 0,
+    'likes': 5,
+    'comments': 5,
+    'is_liked': true,
+    'user_id': 2
+  },
+  {
+    'id': 2,
+    'text':
+        '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
            It has survived not only five centuries, but also the leap into electronic typesetting, 
            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets, 
@@ -19,14 +29,37 @@ List<Map> POSTS = [
     'user_id': 1
   },
   {
-    'id': 2,
-    'text': 'post 2',
-    'images': [],
+    'id': 3,
+    'text': 'Flutter is just awesome',
+    'images': [kImage2],
     'timestamp': 0,
     'likes': 5,
     'comments': 5,
     'is_liked': true,
-    'user_id': 2
+    'user_id': 3
+  },
+  {
+    'id': 4,
+    'text': 'I love animals.',
+    'images': [kImage3, kImage4, kImage5],
+    'timestamp': 0,
+    'likes': 5,
+    'comments': 5,
+    'is_liked': true,
+    'user_id': 4
+  },
+  {
+    'id': 5,
+    'text':
+        '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+           when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+           It has survived not only five centuries, but also the leap into electronic typesetting.''',
+    'images': [],
+    'likes': 5,
+    'comments': 5,
+    'is_liked': true,
+    'timestamp': 1631331046,
+    'user_id': 5
   },
 ];
 
