@@ -12,4 +12,16 @@ class UserRepo {
       return null;
     }
   }
+
+  Future<List<UserModel>?> getUsers() async {
+    try {
+      List<Map> rawUsersData = await _userAPI.getUsers();
+      return rawUsersData
+          .map((rawUser) => UserModel.fromRawUser(rawUser))
+          .toList();
+    } catch (ex) {
+      print('post repo: $ex');
+      return null;
+    }
+  }
 }

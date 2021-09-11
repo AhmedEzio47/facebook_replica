@@ -6,7 +6,9 @@ import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/logic/states/user_state.dart';
+import 'package:facebook_replica/presentation/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,7 +57,7 @@ class _PostItemState extends State<PostItem> {
             SizedBox(
               height: 10,
             ),
-            imageWidget(),
+            Center(child: imageWidget()),
             divider(),
             likesAndCommentsRow(),
             divider(),
@@ -84,11 +86,8 @@ class _PostItemState extends State<PostItem> {
   Widget authorRow(UserState state) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: kAvatarRadius,
-          backgroundImage: AssetImage(
-            kUsersAvatars[(_userId ?? 0) - 1],
-          ),
+        UserAvatar(
+          userAvatar: kUsersAvatars[(_userId ?? 0) - 1],
         ),
         SizedBox(
           width: 10,
@@ -97,7 +96,7 @@ class _PostItemState extends State<PostItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              state.userModel?.name ?? '',
+              state.user?.name ?? '',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(

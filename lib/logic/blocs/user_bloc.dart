@@ -6,7 +6,7 @@ import 'package:facebook_replica/logic/states/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc() : super(UserState()) {}
+  UserBloc() : super(UserState());
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
@@ -25,10 +25,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserState(isLoading: true);
         break;
       case UserEventType.ready:
-        yield UserState(isLoading: false, userModel: event.data);
+        if (event.data is List) {
+          for (var user in (event.data as List)) {
+            yield UserState(
+              user: user,
+            );
+          }
+        } else {
+          yield UserState(isLoading: false, user: event.data);
+        }
         break;
       case UserEventType.error:
         yield UserState();
+        break;
+      case UserEventType.requestUsers:
+        List<UserModel>? users = await UserRepo().getUsers();
+        if (users != null)
+          this.add(UserEvent(type: UserEventType.ready, data: users));
+        else
+          this.add(UserEvent(type: UserEventType.error));
         break;
     }
   }

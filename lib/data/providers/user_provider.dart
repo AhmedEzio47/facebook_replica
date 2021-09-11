@@ -5,4 +5,9 @@ class UserAPI {
     var rawUser = USERS.firstWhere((element) => element['id'] == id);
     return rawUser;
   }
+
+  Future<List<Map>> getUsers() async {
+    await Future.delayed(Duration(seconds: 2));
+    return USERS;
+  }
 }

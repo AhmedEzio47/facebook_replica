@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/blocs/post_bloc.dart';
+import 'logic/blocs/user_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,8 +13,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PostBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PostBloc>(
+          create: (context) => PostBloc(),
+        ),
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Facebook Replica',

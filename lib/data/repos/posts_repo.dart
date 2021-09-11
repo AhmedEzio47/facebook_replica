@@ -7,7 +7,7 @@ class PostsRepo {
     try {
       List<Map> rawPostsData = await _postsAPI.getPosts();
       return rawPostsData
-          .map((rawPost) => PostModel.fromRawData(rawPost))
+          .map((rawPost) => PostModel.fromRawPost(rawPost))
           .toList();
     } catch (ex) {
       print('post repo: $ex');

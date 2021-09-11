@@ -14,7 +14,7 @@ String formatTimestamp(DateTime? date) {
   } else if (diff.inHours > 0 && diff.inHours < 24) {
     time = '${diff.inHours}h';
   } else if (diff.inDays > 0 && diff.inDays < 7) {
-    time = '${diff.inMinutes}d';
+    time = '${diff.inDays}d';
   } else {
     if (diff.inDays >= 7 && diff.inDays < 14) {
       time = '1w';

@@ -18,7 +18,7 @@ class PostModel {
       required this.timestamp,
       required this.userId});
 
-  factory PostModel.fromRawData(rawPost) {
+  factory PostModel.fromRawPost(rawPost) {
     return PostModel(
       id: rawPost['id'],
       text: rawPost['text'],

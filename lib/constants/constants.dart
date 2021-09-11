@@ -1,5 +1,6 @@
 ///assets
-const String kFacebook_logo = 'assets/images/facebook-logo.png';
+const String kFacebookLogo = 'assets/images/facebook-logo.png';
+const String kWebLogo = 'assets/images/web-logo.png';
 const String kImage1 = 'assets/images/posts/post-1.jpg';
 const String kImage2 = 'assets/images/posts/post-2.png';
 const String kImage3 = 'assets/images/posts/post-3.jpg';
@@ -16,11 +17,14 @@ const List<String> kUsersAvatars = [
 
 ///enums
 enum PostEventType { like, loading, ready, request, error }
-enum UserEventType { loading, ready, request, error }
+enum UserEventType { loading, ready, request, requestUsers, error }
 
 ///sizes
 const double kAvatarRadius = 22;
 const double kPostLoadingHeight = 200;
+const double kWebPostListWidth = 900;
+const double kLeftPanelItemHeight = 50;
+const double kLeftPanelIconSize = 30;
 
 ///constants
 const int kMaxCharsInPostText = 100;

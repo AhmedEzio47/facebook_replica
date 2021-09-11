@@ -6,7 +6,7 @@ import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  PostBloc() : super(PostState()) {}
+  PostBloc() : super(PostState());
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
@@ -26,11 +26,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         break;
       case PostEventType.loading:
-        for (int i = 0; i < 5; i++) {
-          yield PostState(
-            isLoading: true,
-          );
-        }
+        // for (int i = 0; i < 5; i++) {
+        //   yield PostState(
+        //     isLoading: true,
+        //   );
+        // }
         break;
       case PostEventType.ready:
         for (var post in (event.data as List)) {

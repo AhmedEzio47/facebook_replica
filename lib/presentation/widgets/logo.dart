@@ -1,5 +1,6 @@
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget with PreferredSizeWidget {
@@ -13,7 +14,9 @@ class Logo extends StatelessWidget with PreferredSizeWidget {
       color: kLightBGColor,
       padding: EdgeInsets.all(8),
       alignment: Alignment.centerLeft,
-      child: Image.asset(kFacebook_logo),
+      child: Image.asset(
+        kIsWeb ? kWebLogo : kFacebookLogo,
+      ),
     );
   }
 

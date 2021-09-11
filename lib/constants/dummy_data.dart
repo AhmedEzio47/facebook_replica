@@ -8,10 +8,10 @@ List<Map> POSTS = [
         'Welcome to Facebook replica mad using BLoC, an amazing design pattern and state providing tool.',
     'images': [kImage1],
     'timestamp': 0,
-    'likes': 5,
+    'likes': 6,
     'comments': 5,
     'is_liked': true,
-    'user_id': 2
+    'user_id': 1
   },
   {
     'id': 2,
@@ -26,14 +26,14 @@ List<Map> POSTS = [
     'comments': 5,
     'is_liked': true,
     'timestamp': 1631331046,
-    'user_id': 1
+    'user_id': 2
   },
   {
     'id': 3,
     'text': 'Flutter is just awesome',
     'images': [kImage2],
-    'timestamp': 0,
-    'likes': 5,
+    'timestamp': 1631330046,
+    'likes': 10,
     'comments': 5,
     'is_liked': true,
     'user_id': 3
@@ -42,8 +42,8 @@ List<Map> POSTS = [
     'id': 4,
     'text': 'I love animals.',
     'images': [kImage3, kImage4, kImage5],
-    'timestamp': 0,
-    'likes': 5,
+    'timestamp': 1631311046,
+    'likes': 23,
     'comments': 5,
     'is_liked': true,
     'user_id': 4
@@ -55,10 +55,10 @@ List<Map> POSTS = [
            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
            It has survived not only five centuries, but also the leap into electronic typesetting.''',
     'images': [],
-    'likes': 5,
+    'likes': 67,
     'comments': 5,
     'is_liked': true,
-    'timestamp': 1631331046,
+    'timestamp': 1631231046,
     'user_id': 5
   },
 ];
@@ -89,4 +89,41 @@ List<Map> USERS = [
     'name': 'User 5',
     'avatar': kUsersAvatars[4],
   },
+];
+
+const List<Map> MENU = [
+  {'icon': 'assets/icons/friends.png', 'label': 'Friends'},
+  {'icon': 'assets/icons/jobs.png', 'label': 'Jobs'},
+  {'icon': 'assets/icons/groups.png', 'label': 'Groups'},
+  {'icon': 'assets/icons/marketplace.png', 'label': 'Marketplace'},
+  {'icon': 'assets/icons/watch.png', 'label': 'Watch'},
+  {'icon': 'assets/icons/ad-center.png', 'label': 'Ad Center'},
+  {'icon': 'assets/icons/ads-manager.png', 'label': 'Ads Manager'},
+  {'icon': 'assets/icons/blood-donations.png', 'label': 'Blood Donations'},
+  {'icon': 'assets/icons/business-manager.png', 'label': 'Business Manager'},
+  {'icon': 'assets/icons/campus.png', 'label': 'Campus'},
+  {'icon': 'assets/icons/community-help.png', 'label': 'Community Help'},
+  {
+    'icon': 'assets/icons/covid-info-center.png',
+    'label': 'COVID-19 Information Center'
+  },
+  {'icon': 'assets/icons/emotional-health.png', 'label': 'Emotional Health'},
+  {'icon': 'assets/icons/events.png', 'label': 'Events'},
+  {'icon': 'assets/icons/facebook-pay.png', 'label': 'Facebook Pay'},
+  {'icon': 'assets/icons/favorites.png', 'label': 'Favorites'},
+  {'icon': 'assets/icons/fundraisers.png', 'label': 'Fundraisers'},
+  {'icon': 'assets/icons/gaming-video.png', 'label': 'Gaming Video'},
+  {'icon': 'assets/icons/live-videos.png', 'label': 'Live Videos'},
+  {'icon': 'assets/icons/memories.png', 'label': 'Memories'},
+  {'icon': 'assets/icons/messenger.png', 'label': 'Messenger'},
+  {'icon': 'assets/icons/messenger-kids.png', 'label': 'Messenger Kids'},
+  {'icon': 'assets/icons/most-recent.png', 'label': 'Most Recent'},
+  {'icon': 'assets/icons/pages.png', 'label': 'Pages'},
+  {'icon': 'assets/icons/play-games.png', 'label': 'Play Games'},
+  {
+    'icon': 'assets/icons/recent-ad-activity.png',
+    'label': 'Recent Ad Activity'
+  },
+  {'icon': 'assets/icons/saved.png', 'label': 'Saved'},
+  {'icon': 'assets/icons/weather.png', 'label': 'Weather'},
 ];
