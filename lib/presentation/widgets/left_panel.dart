@@ -6,7 +6,7 @@ class LeftPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 8),
+      padding: EdgeInsets.only(left: 16),
       width: kWebPostListWidth,
       child: ListView.builder(
         itemBuilder: (context, index) => buildItem(index),

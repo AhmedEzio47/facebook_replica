@@ -97,6 +97,7 @@ class _PostItemState extends State<PostItem> {
           children: [
             Text(
               state.user?.name ?? '',
+              key: Key((state.user?.id ?? '').toString()),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(

@@ -1,3 +1,4 @@
+import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
@@ -28,7 +29,11 @@ class _RightPanelState extends State<RightPanel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Contacts'),
+          Text(
+            'Contacts',
+            style:
+                TextStyle(color: kGreyTextColor, fontWeight: FontWeight.bold),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 32.0),
@@ -60,6 +65,7 @@ class _RightPanelState extends State<RightPanel> {
 
   Widget buildItem(int index) {
     return Container(
+      padding: EdgeInsets.only(bottom: 4),
       height: kLeftPanelItemHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +74,10 @@ class _RightPanelState extends State<RightPanel> {
           SizedBox(
             width: 10,
           ),
-          Text(_users[index].user?.name ?? '')
+          Text(
+            _users[index].user?.name ?? '',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )
         ],
       ),
     );

@@ -42,7 +42,7 @@ List<Map> POSTS = [
     'id': 4,
     'text': 'I love animals.',
     'images': [kImage3, kImage4, kImage5],
-    'timestamp': 1631311046,
+    'timestamp': 1631251046,
     'likes': 23,
     'comments': 5,
     'is_liked': true,

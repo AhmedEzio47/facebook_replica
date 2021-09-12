@@ -1,6 +1,7 @@
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/logic/blocs/post_bloc.dart';
+import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/presentation/widgets/left_panel.dart';
@@ -54,9 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView.builder(
                       itemCount: _posts.length,
                       itemBuilder: (context, index) {
-                        return PostItem(
-                          key: Key((_posts[index].post?.id ?? 0).toString()),
-                          postState: _posts[index],
+                        return BlocProvider<UserBloc>(
+                          create: (context) => UserBloc(),
+                          child: PostItem(
+                            key: Key((_posts[index].post?.id ?? 0).toString()),
+                            postState: _posts[index],
+                          ),
                         );
                       })),
             ),
