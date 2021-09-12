@@ -12,6 +12,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Stream<PostState> mapEventToState(PostEvent event) async* {
     switch (event.type) {
       case PostEventType.request:
+        //TODO how to make it a separate function
         for (int i = 0; i < 5; i++) {
           yield PostState(
             isLoading: true,
@@ -33,13 +34,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         // }
         break;
       case PostEventType.ready:
-        for (var post in (event.data as List)) {
-          yield PostState(
-            post: post,
-          );
+        for (PostModel post in (event.data as List)) {
+          yield PostState(post: post, isLiked: post.isLiked);
         }
         break;
       case PostEventType.like:
+        PostState postState = event.data;
+        PostModel postModel = postState.post!;
+        postModel.isLiked = !postState.isLiked;
+        postModel.isLiked ? postModel.likes++ : postModel.likes--;
+        PostState newPostState =
+            PostState(isLiked: !postState.isLiked, post: postModel);
+        yield newPostState;
         break;
       case PostEventType.error:
         yield PostState();

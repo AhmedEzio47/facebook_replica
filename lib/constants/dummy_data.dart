@@ -10,7 +10,7 @@ List<Map> POSTS = [
     'timestamp': 0,
     'likes': 6,
     'comments': 5,
-    'is_liked': true,
+    'is_liked': false,
     'user_id': 1
   },
   {
@@ -35,7 +35,7 @@ List<Map> POSTS = [
     'timestamp': 1631330046,
     'likes': 10,
     'comments': 5,
-    'is_liked': true,
+    'is_liked': false,
     'user_id': 3
   },
   {
@@ -57,7 +57,7 @@ List<Map> POSTS = [
     'images': [],
     'likes': 67,
     'comments': 5,
-    'is_liked': true,
+    'is_liked': false,
     'timestamp': 1631231046,
     'user_id': 5
   },

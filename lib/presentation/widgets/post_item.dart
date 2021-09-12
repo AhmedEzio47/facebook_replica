@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/helpers/helper_methods.dart';
+import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
+import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/logic/states/user_state.dart';
@@ -231,18 +233,31 @@ class _PostItemState extends State<PostItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                FontAwesomeIcons.thumbsUp,
-                color: kGreyTextColor,
-              ),
-              Text(
-                ' Like',
-                style: TextStyle(color: kGreyTextColor),
-              ),
-            ],
+          InkWell(
+            onTap: () {
+              BlocProvider.of<PostBloc>(context).add(
+                  PostEvent(type: PostEventType.like, data: widget.postState));
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Icon(
+                    (widget.postState?.isLiked ?? false)
+                        ? FontAwesomeIcons.solidThumbsUp
+                        : FontAwesomeIcons.thumbsUp,
+                    color: (widget.postState?.isLiked ?? false)
+                        ? Colors.blueAccent
+                        : kGreyTextColor,
+                  ),
+                ),
+                Text(
+                  ' Like',
+                  style: TextStyle(color: kGreyTextColor),
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

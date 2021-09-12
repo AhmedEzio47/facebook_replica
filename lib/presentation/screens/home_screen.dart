@@ -33,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kBGColor,
       appBar: Logo(
+        height: kAppbarHeight,
         width: MediaQuery.of(context).size.width,
-        height: 60,
       ),
       body: LayoutBuilder(
         builder: (context, boxConstraints) => Row(
@@ -44,13 +44,28 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               flex: 4,
               child: BlocListener<PostBloc, PostState>(
+                  listenWhen: (previousState, currentState) => true,
                   listener: (context, postState) {
+                    print('like button handled');
+
                     if (postState.post != null) {
                       _posts.removeWhere((element) => element.post == null);
                     }
-                    setState(() {
-                      _posts.add(postState);
-                    });
+                    if (!(_posts
+                        .where(
+                            (element) => element.post?.id == postState.post?.id)
+                        .isNotEmpty)) {
+                      setState(() {
+                        _posts.add(postState);
+                      });
+                    } else {
+                      if (postState.post != null)
+                        setState(() {
+                          int index = _posts.indexWhere((element) =>
+                              (element.post?.id ?? 0) == postState.post?.id);
+                          _posts[index] = postState;
+                        });
+                    }
                   },
                   child: ListView.builder(
                       itemCount: _posts.length,
@@ -64,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       })),
             ),
-            if (kIsWeb && boxConstraints.maxWidth > kWebPostListWidth)
+            if (kIsWeb && boxConstraints.maxWidth > kWebPostListWidth * 1.5)
               Expanded(flex: 3, child: RightPanel())
           ],
         ),
