@@ -171,7 +171,7 @@ class _PostItemState extends State<PostItem> {
 
   Widget likesAndCommentsRow() {
     int likes = widget.postState?.post?.likes ?? 0;
-    int comments = widget.postState?.post?.comments ?? 0;
+    int comments = (widget.postState?.post?.comments ?? []).length;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -242,7 +242,7 @@ class _PostItemState extends State<PostItem> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: const EdgeInsets.only(bottom: 4.0),
                   child: Icon(
                     (widget.postState?.isLiked ?? false)
                         ? FontAwesomeIcons.solidThumbsUp
@@ -250,6 +250,7 @@ class _PostItemState extends State<PostItem> {
                     color: (widget.postState?.isLiked ?? false)
                         ? Colors.blueAccent
                         : kGreyTextColor,
+                    size: kReactionIconSize,
                   ),
                 ),
                 Text(
@@ -265,6 +266,7 @@ class _PostItemState extends State<PostItem> {
               Icon(
                 FontAwesomeIcons.comment,
                 color: kGreyTextColor,
+                size: kReactionIconSize,
               ),
               Text(
                 ' Comment',
@@ -278,6 +280,7 @@ class _PostItemState extends State<PostItem> {
               Icon(
                 FontAwesomeIcons.shareSquare,
                 color: kGreyTextColor,
+                size: kReactionIconSize,
               ),
               Text(
                 '  Share',

@@ -27,11 +27,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         break;
       case PostEventType.loading:
-        // for (int i = 0; i < 5; i++) {
-        //   yield PostState(
-        //     isLoading: true,
-        //   );
-        // }
+        for (int i = 0; i < 5; i++) {
+          yield PostState(
+            isLoading: true,
+          );
+        }
         break;
       case PostEventType.ready:
         for (PostModel post in (event.data as List)) {

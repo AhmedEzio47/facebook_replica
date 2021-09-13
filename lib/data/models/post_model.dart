@@ -1,34 +1,27 @@
-class PostModel {
-  int id;
-  String? text;
-  List? images;
-  DateTime timestamp;
-  int likes;
-  int comments;
-  bool isLiked;
-  int userId;
+import 'package:facebook_replica/data/models/postable_model.dart';
 
-  PostModel(
-      {required this.id,
-      this.text,
-      this.images,
-      this.likes = 0,
-      this.comments = 0,
-      this.isLiked = false,
-      required this.timestamp,
-      required this.userId});
+class PostModel extends PostableModel {
+  List? images;
+  int likes;
+  List<PostableModel>? comments;
+  bool isLiked;
+
+  PostModel(int id, DateTime timestamp, int userId, String text,
+      {this.images, this.likes = 0, this.comments, this.isLiked = false})
+      : super(id: id, timestamp: timestamp, userId: userId, text: text);
 
   factory PostModel.fromRawPost(rawPost) {
     return PostModel(
-      id: rawPost['id'],
-      text: rawPost['text'],
+      rawPost['id'],
+      DateTime.fromMillisecondsSinceEpoch(rawPost['timestamp'] * 1000),
+      rawPost['user_id'],
+      rawPost['text'],
       images: rawPost['images'],
       likes: rawPost['likes'] ?? 0,
-      comments: rawPost['comments'] ?? 0,
+      comments: ((rawPost['comments'] ?? []) as List)
+          .map((e) => PostableModel.fromRawPost(e))
+          .toList(),
       isLiked: rawPost['is_liked'] ?? false,
-      timestamp:
-          DateTime.fromMillisecondsSinceEpoch(rawPost['timestamp'] * 1000),
-      userId: rawPost['user_id'],
     );
   }
 }

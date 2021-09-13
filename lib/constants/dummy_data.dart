@@ -1,7 +1,7 @@
 import 'package:facebook_replica/constants/constants.dart';
 
 ///Posts
-List<Map> POSTS = [
+const List<Map> POSTS = [
   {
     'id': 1,
     'text':
@@ -9,7 +9,9 @@ List<Map> POSTS = [
     'images': [kImage1],
     'timestamp': 0,
     'likes': 6,
-    'comments': 5,
+    'comments': [
+      {'id': 1, 'timestamp': 1631031046, 'text': 'Great word', 'user_id': 1},
+    ],
     'is_liked': false,
     'user_id': 1
   },
@@ -23,18 +25,18 @@ List<Map> POSTS = [
            containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.''',
     'images': [],
     'likes': 5,
-    'comments': 5,
+    'comments': [],
     'is_liked': true,
     'timestamp': 1631331046,
     'user_id': 2
   },
   {
     'id': 3,
-    'text': 'Flutter is just awesome',
+    'text': 'Flutter is just awesome.',
     'images': [kImage2],
     'timestamp': 1631330046,
     'likes': 10,
-    'comments': 5,
+    'comments': [],
     'is_liked': false,
     'user_id': 3
   },
@@ -44,7 +46,7 @@ List<Map> POSTS = [
     'images': [kImage3, kImage4, kImage5],
     'timestamp': 1631251046,
     'likes': 23,
-    'comments': 5,
+    'comments': [],
     'is_liked': true,
     'user_id': 4
   },
@@ -56,14 +58,14 @@ List<Map> POSTS = [
            It has survived not only five centuries, but also the leap into electronic typesetting.''',
     'images': [],
     'likes': 67,
-    'comments': 5,
+    'comments': [],
     'is_liked': false,
     'timestamp': 1631231046,
     'user_id': 5
   },
 ];
 
-List<Map> USERS = [
+List<Map> kUsers = [
   {
     'id': 1,
     'name': 'User 1',

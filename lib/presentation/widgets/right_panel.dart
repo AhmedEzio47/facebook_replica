@@ -70,7 +70,7 @@ class _RightPanelState extends State<RightPanel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          UserAvatar(userAvatar: _users[index].user?.avatar ?? ''),
+          UserAvatar(userAvatar: _users[index].user?.avatar ?? kDefaultUser),
           SizedBox(
             width: 10,
           ),

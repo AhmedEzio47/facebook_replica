@@ -6,6 +6,7 @@ const String kImage2 = 'assets/images/posts/post-2.png';
 const String kImage3 = 'assets/images/posts/post-3.jpg';
 const String kImage4 = 'assets/images/posts/post-4.jpg';
 const String kImage5 = 'assets/images/posts/post-5.jpeg';
+const String kDefaultUser = 'assets/images/users/default-user.jpg';
 
 const List<String> kUsersAvatars = [
   'assets/images/users/user-1.jpeg',
@@ -27,6 +28,7 @@ const double kLeftPanelItemHeight = 50;
 const double kLeftPanelIconSize = 30;
 const double kAppbarHeight = 60;
 const double kDrawerWidth = 300;
+const double kReactionIconSize = 20;
 
 ///constants
 const int kMaxCharsInPostText = 100;
