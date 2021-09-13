@@ -1,3 +1,4 @@
+import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +27,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Facebook Replica',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue,
+            appBarTheme: AppBarTheme(
+                iconTheme: IconThemeData(color: kLightPrimaryColor))),
         home: HomeScreen(title: 'Facebook Replica'),
       ),
     );

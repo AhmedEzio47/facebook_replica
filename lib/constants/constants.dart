@@ -26,6 +26,7 @@ const double kWebPostListWidth = 900;
 const double kLeftPanelItemHeight = 50;
 const double kLeftPanelIconSize = 30;
 const double kAppbarHeight = 60;
+const double kDrawerWidth = 300;
 
 ///constants
 const int kMaxCharsInPostText = 100;
