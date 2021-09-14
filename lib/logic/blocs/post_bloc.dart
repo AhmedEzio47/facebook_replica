@@ -12,26 +12,13 @@ class PostableBloc extends Bloc<PostEvent, PostableState> {
   Stream<PostableState> mapEventToState(PostEvent event) async* {
     switch (event.type) {
       case PostEventType.request:
-        //TODO how to make it a separate function
-        for (int i = 0; i < 5; i++) {
-          yield PostableState(
-            isLoading: true,
-          );
-        }
         List<PostModel>? posts = await PostsRepo().getPosts();
-
         if (posts != null)
           this.add(PostEvent(type: PostEventType.ready, data: posts));
         else
-          this.add(PostEvent(type: PostEventType.error));
+          this.add(
+              PostEvent(type: PostEventType.error, data: 'Unexpected error!'));
 
-        break;
-      case PostEventType.loading:
-        for (int i = 0; i < 5; i++) {
-          yield PostableState(
-            isLoading: true,
-          );
-        }
         break;
       case PostEventType.ready:
         for (PostModel post in (event.data as List)) {
@@ -52,7 +39,7 @@ class PostableBloc extends Bloc<PostEvent, PostableState> {
         yield PostableState(postable: postState.postable);
         break;
       case PostEventType.error:
-        yield PostableState();
+        yield PostableState(error: event.data);
         break;
     }
   }

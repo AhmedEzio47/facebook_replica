@@ -1,9 +1,8 @@
 import 'package:facebook_replica/data/models/user_model.dart';
 
 class UserState {
-  bool isLoading;
   UserModel? user;
-  UserState({this.isLoading = false, this.user});
+  UserState({this.user});
 
   @override
   bool operator ==(other) {

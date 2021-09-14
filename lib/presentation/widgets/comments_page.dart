@@ -6,6 +6,7 @@ import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
+import 'package:facebook_replica/presentation/animations/jumping_dots/jumping_dots.dart';
 import 'package:facebook_replica/presentation/widgets/comment_item.dart';
 import 'package:facebook_replica/presentation/widgets/common_widgets.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,8 @@ class CommentsPage extends StatefulWidget {
 class _CommentsState extends State<CommentsPage> {
   String _newComment = '';
   TextEditingController _textEditingController = TextEditingController();
+
+  var _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -78,42 +81,71 @@ class _CommentsState extends State<CommentsPage> {
                   bottom: MediaQuery.of(context).viewPadding.bottom,
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(25)),
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: TextField(
-                          autofocus: true,
-                          controller: _textEditingController,
-                          textInputAction: TextInputAction.go,
-                          onSubmitted: (text) => _submitComment(),
-                          onChanged: (text) {
-                            setState(() {
-                              _newComment = text;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              suffix: _newComment.isNotEmpty
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: InkWell(
-                                        onTap: _submitComment,
-                                        child: Icon(
-                                          Icons.send,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    )
-                                  : null,
-                              border: InputBorder.none,
-                              hintText: 'Write a comment',
-                              hintStyle: TextStyle(color: kGreyTextColor)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (_focusNode.hasFocus)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              JumpingDots(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Someone is writing a comment..',
+                                style: TextStyle(color: kGreyTextColor),
+                              )
+                            ],
+                          ),
+                        if (_focusNode.hasFocus)
+                          SizedBox(
+                            height: 5,
+                          ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(25)),
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: TextField(
+                              focusNode: _focusNode,
+                              autofocus: true,
+                              controller: _textEditingController,
+                              textInputAction: TextInputAction.go,
+                              onSubmitted: (text) => _submitComment(),
+                              onChanged: (text) {
+                                setState(() {
+                                  _newComment = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  suffix: _newComment.isNotEmpty
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 16),
+                                          child: InkWell(
+                                            onTap: _submitComment,
+                                            child: Icon(
+                                              Icons.send,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                                  border: InputBorder.none,
+                                  hintText: 'Write a comment',
+                                  hintStyle: TextStyle(color: kGreyTextColor)),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   )),
             ],

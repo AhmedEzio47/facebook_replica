@@ -40,70 +40,62 @@ class _PostItemState extends State<PostItem> {
 
   @override
   Widget build(BuildContext context) {
-    return !(widget.postState?.isLoading ?? false)
-        ? buildPost()
-        : buildLoadingState();
+    return buildPost();
   }
 
   bool _shouldExpandText = false;
   bool _showComments = false;
 
   Widget buildPost() {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) => Container(
-        color: kLightBGColor,
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            authorRow(state),
-            SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  _shouldExpandText = !_shouldExpandText;
-                });
-              },
-              child: kTextWidget(
-                widget.postState?.postable?.text ?? '',
-                expand: _shouldExpandText,
+    return widget.postState?.error == null
+        ? BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) => Container(
+              color: kLightBGColor,
+              margin: EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  authorRow(state),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: !_shouldExpandText
+                        ? () {
+                            setState(() {
+                              _shouldExpandText = true;
+                            });
+                          }
+                        : null,
+                    child: kTextWidget(
+                      widget.postState?.postable?.text ?? '',
+                      expand: _shouldExpandText,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(child: imageWidget()),
+                  kDivider,
+                  likesAndCommentsRow(),
+                  kDivider,
+                  reactionRow(),
+                  if (kIsWeb && _showComments)
+                    SizedBox(
+                        height: kCommentsHeight,
+                        child: CommentsPage(
+                            post: widget.postState ?? PostableState()))
+                ],
               ),
             ),
-            SizedBox(
-              height: 10,
+          )
+        : Container(
+            height: 200,
+            child: Center(
+              child: Text(widget.postState?.error ?? ''),
             ),
-            Center(child: imageWidget()),
-            kDivider,
-            likesAndCommentsRow(),
-            kDivider,
-            reactionRow(),
-            if (kIsWeb && _showComments)
-              SizedBox(
-                  height: kCommentsHeight,
-                  child:
-                      CommentsPage(post: widget.postState ?? PostableState()))
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildLoadingState() {
-    return Container(
-      margin: EdgeInsets.all(8),
-      color: kBGColor,
-      height: kPostLoadingHeight,
-      child: Center(
-          child: SizedBox(
-              height: 50,
-              width: 50,
-              child: CircularProgressIndicator(
-                color: kPrimaryColor,
-              ))),
-    );
+          );
   }
 
   Widget authorRow(UserState state) {

@@ -53,7 +53,7 @@ Widget kTextWidget(
       ),
       text.length > kMaxCharsInPostText
           ? Text(
-              expand ? 'See Less' : 'See More',
+              expand ? '' : 'See More',
               style: TextStyle(color: kGreyTextColor),
             )
           : Container()

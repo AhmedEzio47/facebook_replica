@@ -12,7 +12,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     switch (event.type) {
       case UserEventType.request:
-        this.add(UserEvent(type: UserEventType.loading));
         UserModel? user = await UserRepo().getUser(event.data);
 
         if (user != null)
@@ -20,9 +19,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         else
           this.add(UserEvent(type: UserEventType.error));
 
-        break;
-      case UserEventType.loading:
-        yield UserState(isLoading: true);
         break;
       case UserEventType.ready:
         if (event.data is List) {
@@ -32,7 +28,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             );
           }
         } else {
-          yield UserState(isLoading: false, user: event.data);
+          yield UserState(user: event.data);
         }
         break;
       case UserEventType.error:

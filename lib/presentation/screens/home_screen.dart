@@ -65,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 flex: 4,
                 child: BlocListener<PostableBloc, PostableState>(
-                    listenWhen: (previousState, currentState) => true,
                     listener: (context, postState) {
                       if (postState.postable != null) {
                         _posts

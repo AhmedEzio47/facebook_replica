@@ -19,8 +19,8 @@ const List<String> kUsersAvatars = [
 ];
 
 ///enums
-enum PostEventType { like, comment, loading, ready, request, error }
-enum UserEventType { loading, ready, request, requestUsers, error }
+enum PostEventType { like, comment, ready, request, error }
+enum UserEventType { ready, request, requestUsers, error }
 
 ///sizes
 const double kAvatarRadius = 22;
