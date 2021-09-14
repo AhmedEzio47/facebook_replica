@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PostBloc>(
-          create: (context) => PostBloc(),
+        BlocProvider<PostableBloc>(
+          create: (context) => PostableBloc(),
         ),
         BlocProvider<UserBloc>(
           create: (context) => UserBloc(),

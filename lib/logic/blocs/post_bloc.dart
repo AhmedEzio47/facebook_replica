@@ -5,16 +5,16 @@ import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PostBloc extends Bloc<PostEvent, PostState> {
-  PostBloc() : super(PostState());
+class PostableBloc extends Bloc<PostEvent, PostableState> {
+  PostableBloc() : super(PostableState());
 
   @override
-  Stream<PostState> mapEventToState(PostEvent event) async* {
+  Stream<PostableState> mapEventToState(PostEvent event) async* {
     switch (event.type) {
       case PostEventType.request:
         //TODO how to make it a separate function
         for (int i = 0; i < 5; i++) {
-          yield PostState(
+          yield PostableState(
             isLoading: true,
           );
         }
@@ -28,27 +28,29 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         break;
       case PostEventType.loading:
         for (int i = 0; i < 5; i++) {
-          yield PostState(
+          yield PostableState(
             isLoading: true,
           );
         }
         break;
       case PostEventType.ready:
         for (PostModel post in (event.data as List)) {
-          yield PostState(post: post, isLiked: post.isLiked);
+          yield PostableState(postable: post, isLiked: post.isLiked);
         }
         break;
       case PostEventType.like:
-        PostState postState = event.data;
-        PostModel postModel = postState.post!;
+        PostableState postState = event.data;
+        PostModel postModel = (postState.postable as PostModel);
         postModel.isLiked = !postState.isLiked;
         postModel.isLiked ? postModel.likes++ : postModel.likes--;
-        PostState newPostState =
-            PostState(isLiked: !postState.isLiked, post: postModel);
+        PostableState newPostState =
+            PostableState(isLiked: !postState.isLiked, postable: postModel);
         yield newPostState;
         break;
+      case PostEventType.comment:
+        break;
       case PostEventType.error:
-        yield PostState();
+        yield PostableState();
         break;
     }
   }

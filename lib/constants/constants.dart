@@ -17,7 +17,7 @@ const List<String> kUsersAvatars = [
 ];
 
 ///enums
-enum PostEventType { like, loading, ready, request, error }
+enum PostEventType { like, comment, loading, ready, request, error }
 enum UserEventType { loading, ready, request, requestUsers, error }
 
 ///sizes

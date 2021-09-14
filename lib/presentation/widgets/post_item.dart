@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
+import 'package:facebook_replica/data/models/post_model.dart';
 import 'package:facebook_replica/helpers/helper_methods.dart';
 import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/logic/states/user_state.dart';
+import 'package:facebook_replica/presentation/widgets/comments_page.dart';
+import 'package:facebook_replica/presentation/widgets/common_widgets.dart';
 import 'package:facebook_replica/presentation/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -16,7 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PostItem extends StatefulWidget {
-  final PostState? postState;
+  final PostableState? postState;
   PostItem({Key? key, required this.postState}) : super(key: key);
   @override
   _PostItemState createState() => _PostItemState();
@@ -29,8 +32,8 @@ class _PostItemState extends State<PostItem> {
   @override
   void initState() {
     super.initState();
-    _userId = widget.postState?.post?.userId ?? 0;
-    _images = widget.postState?.post?.images ?? [];
+    _userId = widget.postState?.postable?.userId ?? 0;
+    _images = (widget.postState?.postable as PostModel).images ?? [];
     BlocProvider.of<UserBloc>(context)
         .add(UserEvent(type: UserEventType.request, data: _userId));
   }
@@ -41,6 +44,8 @@ class _PostItemState extends State<PostItem> {
         ? buildPost()
         : buildLoadingState();
   }
+
+  bool _shouldExpandText = false;
 
   Widget buildPost() {
     return BlocBuilder<UserBloc, UserState>(
@@ -55,14 +60,24 @@ class _PostItemState extends State<PostItem> {
             SizedBox(
               height: 10,
             ),
-            textWidget(),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _shouldExpandText = !_shouldExpandText;
+                });
+              },
+              child: kTextWidget(
+                widget.postState?.postable?.text ?? '',
+                expand: _shouldExpandText,
+              ),
+            ),
             SizedBox(
               height: 10,
             ),
             Center(child: imageWidget()),
-            divider(),
+            kDivider,
             likesAndCommentsRow(),
-            divider(),
+            kDivider,
             reactionRow()
           ],
         ),
@@ -108,7 +123,7 @@ class _PostItemState extends State<PostItem> {
             Row(
               children: [
                 Text(
-                  formatTimestamp(widget.postState?.post?.timestamp),
+                  formatTimestamp(widget.postState?.postable?.timestamp),
                   style: TextStyle(color: kGreyTextColor),
                 ),
                 SizedBox(
@@ -135,27 +150,6 @@ class _PostItemState extends State<PostItem> {
     );
   }
 
-  Widget textWidget() {
-    return Wrap(
-      children: [
-        Text(
-          widget.postState?.post?.text ?? '',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        (widget.postState?.post?.text?.length ?? 0) > kMaxCharsInPostText
-            ? InkWell(
-                //TODO go to post screen
-                child: Text(
-                  'See More',
-                  style: TextStyle(color: kGreyTextColor),
-                ),
-              )
-            : Container()
-      ],
-    );
-  }
-
   Widget imageWidget() {
     return _images!.length == 1
         ? Image.asset(_images![0])
@@ -165,65 +159,40 @@ class _PostItemState extends State<PostItem> {
                 options: CarouselOptions(
                   autoPlay: true,
                 ),
-              ) //TODO convert to carousel
+              )
             : Container();
   }
 
   Widget likesAndCommentsRow() {
-    int likes = widget.postState?.post?.likes ?? 0;
-    int comments = (widget.postState?.post?.comments ?? []).length;
+    int likes = (widget.postState?.postable as PostModel).likes;
+    int comments =
+        ((widget.postState?.postable as PostModel).comments ?? []).length;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         likes > 0
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 2),
-                    alignment: Alignment.center,
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.blue, kPrimaryColor],
-                        ),
-                        shape: BoxShape.circle),
-                    child: Icon(
-                      FontAwesomeIcons.solidThumbsUp,
-                      size: 11,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    '$likes',
-                    style: TextStyle(color: kGreyTextColor),
-                  ),
-                ],
-              )
+            ? kLikesWidget(likes)
             : Container(
                 width: 0,
               ),
         comments > 0
-            ? Text(
-                '$comments Comments',
-                style: TextStyle(color: kGreyTextColor),
+            ? InkWell(
+                onTap: () => showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    enableDrag: true,
+                    builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<UserBloc>(context),
+                          child: CommentsPage(
+                              post: widget.postState ?? PostableState()),
+                        )),
+                child: Text(
+                  '$comments Comments',
+                  style: TextStyle(color: kGreyTextColor),
+                ),
               )
             : Container(),
       ],
-    );
-  }
-
-  Widget divider() {
-    return Divider(
-      color: kDividerColor,
-      height: 20,
-      thickness: .5,
     );
   }
 
@@ -234,32 +203,11 @@ class _PostItemState extends State<PostItem> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {
-              BlocProvider.of<PostBloc>(context).add(
-                  PostEvent(type: PostEventType.like, data: widget.postState));
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: Icon(
-                    (widget.postState?.isLiked ?? false)
-                        ? FontAwesomeIcons.solidThumbsUp
-                        : FontAwesomeIcons.thumbsUp,
-                    color: (widget.postState?.isLiked ?? false)
-                        ? Colors.blueAccent
-                        : kGreyTextColor,
-                    size: kReactionIconSize,
-                  ),
-                ),
-                Text(
-                  ' Like',
-                  style: TextStyle(color: kGreyTextColor),
-                ),
-              ],
-            ),
-          ),
+              onTap: () {
+                BlocProvider.of<PostableBloc>(context).add(PostEvent(
+                    type: PostEventType.like, data: widget.postState));
+              },
+              child: kLikeButton((widget.postState?.isLiked ?? false))),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [

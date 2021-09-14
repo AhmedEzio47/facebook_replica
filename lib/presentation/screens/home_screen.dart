@@ -24,11 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
     super.initState();
-    BlocProvider.of<PostBloc>(context)
+    BlocProvider.of<PostableBloc>(context)
         .add(PostEvent(type: PostEventType.request));
   }
 
-  List<PostState> _posts = [];
+  List<PostableState> _posts = [];
   bool _shouldExpandDrawer = false;
   @override
   Widget build(BuildContext context) {
@@ -61,24 +61,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(flex: 3, child: LeftPanel()),
               Expanded(
                 flex: 4,
-                child: BlocListener<PostBloc, PostState>(
+                child: BlocListener<PostableBloc, PostableState>(
                     listenWhen: (previousState, currentState) => true,
                     listener: (context, postState) {
-                      if (postState.post != null) {
-                        _posts.removeWhere((element) => element.post == null);
+                      if (postState.postable != null) {
+                        _posts
+                            .removeWhere((element) => element.postable == null);
                       }
                       if (!(_posts
                           .where((element) =>
-                              element.post?.id == postState.post?.id)
+                              element.postable?.id == postState.postable?.id)
                           .isNotEmpty)) {
                         setState(() {
                           _posts.add(postState);
                         });
                       } else {
-                        if (postState.post != null)
+                        if (postState.postable != null)
                           setState(() {
                             int index = _posts.indexWhere((element) =>
-                                (element.post?.id ?? 0) == postState.post?.id);
+                                (element.postable?.id ?? 0) ==
+                                postState.postable?.id);
                             _posts[index] = postState;
                           });
                       }
@@ -89,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           return BlocProvider<UserBloc>(
                             create: (context) => UserBloc(),
                             child: PostItem(
-                              key:
-                                  Key((_posts[index].post?.id ?? 0).toString()),
+                              key: Key(
+                                  (_posts[index].postable?.id ?? 0).toString()),
                               postState: _posts[index],
                             ),
                           );

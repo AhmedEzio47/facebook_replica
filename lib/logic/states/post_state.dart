@@ -1,8 +1,8 @@
-import 'package:facebook_replica/data/models/post_model.dart';
+import 'package:facebook_replica/data/models/postable_model.dart';
 
-class PostState {
+class PostableState {
   bool isLoading;
   bool isLiked;
-  PostModel? post;
-  PostState({this.isLoading = false, this.post, this.isLiked = false});
+  PostableModel? postable;
+  PostableState({this.isLoading = false, this.postable, this.isLiked = false});
 }
