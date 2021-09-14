@@ -3,6 +3,7 @@ import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
+import 'package:facebook_replica/logic/events/user_event.dart';
 import 'package:facebook_replica/logic/states/post_state.dart';
 import 'package:facebook_replica/presentation/widgets/left_panel.dart';
 import 'package:facebook_replica/presentation/widgets/logo.dart';
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     BlocProvider.of<PostableBloc>(context)
         .add(PostEvent(type: PostEventType.request));
+    BlocProvider.of<UserBloc>(context)
+        .add(UserEvent(type: UserEventType.request, data: kCurrentUserId));
   }
 
   List<PostableState> _posts = [];

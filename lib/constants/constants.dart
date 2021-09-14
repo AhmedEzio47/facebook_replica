@@ -1,3 +1,5 @@
+import 'package:facebook_replica/logic/blocs/user_bloc.dart';
+
 ///assets
 const String kFacebookLogo = 'assets/images/facebook-logo.png';
 const String kWebLogo = 'assets/images/web-logo.png';
@@ -29,6 +31,9 @@ const double kLeftPanelIconSize = 30;
 const double kAppbarHeight = 60;
 const double kDrawerWidth = 300;
 const double kReactionIconSize = 20;
+const double kCommentsHeight = 400;
 
 ///constants
 const int kMaxCharsInPostText = 100;
+const kCurrentUserId = 5;
+UserBloc kCurrentUserBloc = UserBloc();

@@ -10,7 +10,18 @@ const List<Map> POSTS = [
     'timestamp': 0,
     'likes': 6,
     'comments': [
-      {'id': 1, 'timestamp': 1631031046, 'text': 'Great word', 'user_id': 1},
+      {
+        'id': 1,
+        'timestamp': 1631031046,
+        'text': 'Yeah, it is really cool.',
+        'user_id': 1
+      },
+      {
+        'id': 2,
+        'timestamp': 1621031046,
+        'text': 'Alright, I will give it a try.',
+        'user_id': 2
+      },
     ],
     'is_liked': false,
     'user_id': 1

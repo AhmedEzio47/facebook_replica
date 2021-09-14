@@ -48,6 +48,8 @@ class PostableBloc extends Bloc<PostEvent, PostableState> {
         yield newPostState;
         break;
       case PostEventType.comment:
+        PostableState postState = event.data;
+        yield PostableState(postable: postState.postable);
         break;
       case PostEventType.error:
         yield PostableState();

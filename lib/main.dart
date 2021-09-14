@@ -1,4 +1,5 @@
 import 'package:facebook_replica/constants/colors.dart';
+import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<PostableBloc>(
           create: (context) => PostableBloc(),
         ),
-        BlocProvider<UserBloc>(
-          create: (context) => UserBloc(),
+        BlocProvider<UserBloc>.value(
+          value: kCurrentUserBloc,
         ),
       ],
       child: MaterialApp(

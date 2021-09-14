@@ -8,7 +8,7 @@ String formatTimestamp(DateTime? date) {
   var time = '';
 
   if (diff.inSeconds <= 60) {
-    time = 'now';
+    time = 'Just now';
   } else if (diff.inMinutes > 0 && diff.inMinutes < 60) {
     time = '${diff.inMinutes}m';
   } else if (diff.inHours > 0 && diff.inHours < 24) {

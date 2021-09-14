@@ -46,6 +46,7 @@ class _PostItemState extends State<PostItem> {
   }
 
   bool _shouldExpandText = false;
+  bool _showComments = false;
 
   Widget buildPost() {
     return BlocBuilder<UserBloc, UserState>(
@@ -78,7 +79,12 @@ class _PostItemState extends State<PostItem> {
             kDivider,
             likesAndCommentsRow(),
             kDivider,
-            reactionRow()
+            reactionRow(),
+            if (kIsWeb && _showComments)
+              SizedBox(
+                  height: kCommentsHeight,
+                  child:
+                      CommentsPage(post: widget.postState ?? PostableState()))
           ],
         ),
       ),
@@ -177,15 +183,7 @@ class _PostItemState extends State<PostItem> {
               ),
         comments > 0
             ? InkWell(
-                onTap: () => showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    enableDrag: true,
-                    builder: (_) => BlocProvider.value(
-                          value: BlocProvider.of<UserBloc>(context),
-                          child: CommentsPage(
-                              post: widget.postState ?? PostableState()),
-                        )),
+                onTap: goToCommentsPage,
                 child: Text(
                   '$comments Comments',
                   style: TextStyle(color: kGreyTextColor),
@@ -208,19 +206,22 @@ class _PostItemState extends State<PostItem> {
                     type: PostEventType.like, data: widget.postState));
               },
               child: kLikeButton((widget.postState?.isLiked ?? false))),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                FontAwesomeIcons.comment,
-                color: kGreyTextColor,
-                size: kReactionIconSize,
-              ),
-              Text(
-                ' Comment',
-                style: TextStyle(color: kGreyTextColor),
-              ),
-            ],
+          InkWell(
+            onTap: goToCommentsPage,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  FontAwesomeIcons.comment,
+                  color: kGreyTextColor,
+                  size: kReactionIconSize,
+                ),
+                Text(
+                  ' Comment',
+                  style: TextStyle(color: kGreyTextColor),
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -239,5 +240,19 @@ class _PostItemState extends State<PostItem> {
         ],
       ),
     );
+  }
+
+  void goToCommentsPage() async {
+    if (!kIsWeb)
+      await showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          enableDrag: true,
+          builder: (_) =>
+              CommentsPage(post: widget.postState ?? PostableState()));
+    else
+      setState(() {
+        _showComments = !_showComments;
+      });
   }
 }
