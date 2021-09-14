@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: !_shouldExpandDrawer || !kIsWeb
+      endDrawer: !_shouldExpandDrawer || !kIsWeb
           ? Container(
               color: kAccentColor,
               child: LeftPanel(),
