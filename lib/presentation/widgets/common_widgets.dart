@@ -1,5 +1,6 @@
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
+import 'package:facebook_replica/presentation/animations/jumping_dots/fading_rotated_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -66,13 +67,19 @@ Widget kLikeButton(bool isLiked) => Row(
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 4.0),
-          child: Icon(
-            isLiked
-                ? FontAwesomeIcons.solidThumbsUp
-                : FontAwesomeIcons.thumbsUp,
-            color: isLiked ? Colors.blueAccent : kGreyTextColor,
-            size: kReactionIconSize,
-          ),
+          child: isLiked
+              ? FadingRotatedWidget(
+                  child: Icon(
+                    FontAwesomeIcons.solidThumbsUp,
+                    color: Colors.blueAccent,
+                    size: kReactionIconSize,
+                  ),
+                )
+              : Icon(
+                  FontAwesomeIcons.thumbsUp,
+                  color: kGreyTextColor,
+                  size: kReactionIconSize,
+                ),
         ),
         Text(
           ' Like',
