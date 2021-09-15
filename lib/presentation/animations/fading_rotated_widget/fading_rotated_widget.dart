@@ -17,11 +17,13 @@ class _FadingRotatedWidgetState extends State<FadingRotatedWidget>
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 350));
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
     _fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(_animationController);
     _rotationAnimation =
-        Tween(begin: 0.0, end: 1.0).animate(_animationController);
+        Tween(begin: 0.0, end: 2.0).animate(_animationController);
   }
 
   @override

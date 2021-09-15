@@ -5,7 +5,7 @@ import 'package:facebook_replica/data/models/postable_model.dart';
 import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
-import 'package:facebook_replica/logic/states/post_state.dart';
+import 'package:facebook_replica/logic/states/postable_state.dart';
 import 'package:facebook_replica/presentation/animations/jumping_dots/jumping_dots.dart';
 import 'package:facebook_replica/presentation/widgets/comment_item.dart';
 import 'package:facebook_replica/presentation/widgets/common_widgets.dart';

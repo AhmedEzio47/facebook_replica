@@ -4,15 +4,20 @@ import 'package:facebook_replica/logic/blocs/post_bloc.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
-import 'package:facebook_replica/logic/states/post_state.dart';
+import 'package:facebook_replica/logic/states/postable_state.dart';
+import 'package:facebook_replica/logic/states/user_state.dart';
+import 'package:facebook_replica/presentation/widgets/common_widgets.dart';
 import 'package:facebook_replica/presentation/widgets/left_panel.dart';
 import 'package:facebook_replica/presentation/widgets/logo.dart';
+import 'package:facebook_replica/presentation/widgets/new_post.dart';
 import 'package:facebook_replica/presentation/widgets/post_item.dart';
 import 'package:facebook_replica/presentation/widgets/right_panel.dart';
+import 'package:facebook_replica/presentation/widgets/user_avatar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -33,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<PostableState> _posts = [];
   bool _shouldExpandDrawer = false;
+  UserState? _userState;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           .isNotEmpty)) {
                         setState(() {
                           _posts.add(postState);
+                          _posts.sort((a, b) =>
+                              (b.postable?.timestamp ?? DateTime.now())
+                                  .difference(
+                                      a.postable?.timestamp ?? DateTime.now())
+                                  .inMilliseconds);
                         });
                       } else {
                         if (postState.postable != null)
@@ -87,18 +98,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                       }
                     },
-                    child: ListView.builder(
-                        itemCount: _posts.length,
-                        itemBuilder: (context, index) {
-                          return BlocProvider<UserBloc>(
-                            create: (context) => UserBloc(),
-                            child: PostItem(
-                              key: Key(
-                                  (_posts[index].postable?.id ?? 0).toString()),
-                              postState: _posts[index],
-                            ),
-                          );
-                        })),
+                    child: Column(
+                      children: [
+                        newPost(),
+                        Expanded(
+                          child: _posts.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: _posts.length,
+                                  itemBuilder: (context, index) {
+                                    return BlocProvider<UserBloc>(
+                                      create: (context) => UserBloc(),
+                                      child: PostItem(
+                                        key: Key(
+                                            (_posts[index].postable?.id ?? 0)
+                                                .toString()),
+                                        postState: _posts[index],
+                                      ),
+                                    );
+                                  })
+                              : Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                        ),
+                      ],
+                    )),
               ),
               if (kIsWeb && boxConstraints.maxWidth > kWebPostListWidth * 1.5)
                 Expanded(flex: 3, child: RightPanel())
@@ -107,5 +130,112 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  Widget newPost() {
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) => Container(
+        decoration: BoxDecoration(color: kAccentColor),
+        padding: EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                UserAvatar(
+                    userAvatar: state.user?.avatar ?? kDefaultUserAvatar),
+                SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(25)),
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: TextField(
+                        onTap: () => _goToNewPost(),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'What\'s on your mind?',
+                            hintStyle: TextStyle(color: kGreyTextColor)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            kDivider,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/icons/live-video.png',
+                      color: Colors.redAccent,
+                      scale: 6,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Live Video',
+                      style: TextStyle(color: kGreyTextColor),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.photoVideo,
+                      color: Colors.green,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      'Live Video',
+                      style: TextStyle(color: kGreyTextColor),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.smile,
+                      color: Colors.yellow,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Photo/Video',
+                      style: TextStyle(color: kGreyTextColor),
+                    )
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _goToNewPost() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: NewPost(
+                postId: _posts.length + 1,
+              ),
+            ));
   }
 }

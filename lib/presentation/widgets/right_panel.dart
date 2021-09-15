@@ -38,24 +38,29 @@ class _RightPanelState extends State<RightPanel> {
             child: Padding(
               padding: const EdgeInsets.only(left: 32.0),
               child: BlocListener<UserBloc, UserState>(
-                  listener: (context, userState) {
-                    if (userState.user != null) {
-                      _users.removeWhere((element) => element.user == null);
+                listener: (context, userState) {
+                  if (userState.user != null) {
+                    _users.removeWhere((element) => element.user == null);
+                  }
+                  setState(() {
+                    if (!_users.contains(userState)) {
+                      _users.add(userState);
                     }
-                    setState(() {
-                      if (!_users.contains(userState)) {
-                        _users.add(userState);
-                      }
-                    });
-                  },
-                  child: ListView.builder(
-                      itemCount: _users.length,
-                      itemBuilder: (context, index) {
-                        return BlocProvider(
-                          create: (context) => UserBloc(),
-                          child: buildItem(index),
-                        );
-                      })),
+                  });
+                },
+                child: _users.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: _users.length,
+                        itemBuilder: (context, index) {
+                          return BlocProvider(
+                            create: (context) => UserBloc(),
+                            child: buildItem(index),
+                          );
+                        })
+                    : Center(
+                        child: CircularProgressIndicator(),
+                      ),
+              ),
             ),
           ),
         ],
@@ -70,7 +75,8 @@ class _RightPanelState extends State<RightPanel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          UserAvatar(userAvatar: _users[index].user?.avatar ?? kDefaultUser),
+          UserAvatar(
+              userAvatar: _users[index].user?.avatar ?? kDefaultUserAvatar),
           SizedBox(
             width: 10,
           ),

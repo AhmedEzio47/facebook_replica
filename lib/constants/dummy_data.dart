@@ -7,7 +7,7 @@ const List<Map> POSTS = [
     'text':
         'Welcome to Facebook replica mad using BLoC, an amazing design pattern and state providing tool.',
     'images': [kImage1],
-    'timestamp': 0,
+    'timestamp': 1631331046,
     'likes': 6,
     'comments': [
       {
@@ -38,14 +38,14 @@ const List<Map> POSTS = [
     'likes': 5,
     'comments': [],
     'is_liked': true,
-    'timestamp': 1631331046,
+    'timestamp': 1631031046,
     'user_id': 2
   },
   {
     'id': 3,
     'text': 'Flutter is just awesome.',
     'images': [kImage2],
-    'timestamp': 1631330046,
+    'timestamp': 1630331046,
     'likes': 10,
     'comments': [],
     'is_liked': false,
@@ -55,7 +55,7 @@ const List<Map> POSTS = [
     'id': 4,
     'text': 'I love animals.',
     'images': [kImage3, kImage4, kImage5],
-    'timestamp': 1631251046,
+    'timestamp': 1621331046,
     'likes': 23,
     'comments': [],
     'is_liked': true,
@@ -71,7 +71,7 @@ const List<Map> POSTS = [
     'likes': 67,
     'comments': [],
     'is_liked': false,
-    'timestamp': 1631231046,
+    'timestamp': 1611331046,
     'user_id': 5
   },
 ];

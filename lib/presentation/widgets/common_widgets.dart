@@ -1,8 +1,9 @@
 import 'package:facebook_replica/constants/colors.dart';
 import 'package:facebook_replica/constants/constants.dart';
-import 'package:facebook_replica/presentation/animations/jumping_dots/fading_rotated_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../animations/fading_rotated_widget/fading_rotated_widget.dart';
 
 Widget kLikesWidget(int likes) => Row(
       mainAxisSize: MainAxisSize.min,
@@ -47,10 +48,10 @@ Widget kTextWidget(
 }) {
   return Wrap(
     children: [
-      Text(
+      SelectableText(
         text,
-        maxLines: expand ? 100 : 2,
-        overflow: TextOverflow.ellipsis,
+        maxLines: expand ? 6 : 2,
+        //overflow: TextOverflow.ellipsis,
       ),
       text.length > kMaxCharsInPostText
           ? Text(
@@ -71,7 +72,7 @@ Widget kLikeButton(bool isLiked) => Row(
               ? FadingRotatedWidget(
                   child: Icon(
                     FontAwesomeIcons.solidThumbsUp,
-                    color: Colors.blueAccent,
+                    color: kLightPrimaryColor,
                     size: kReactionIconSize,
                   ),
                 )

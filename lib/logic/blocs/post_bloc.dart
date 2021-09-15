@@ -2,7 +2,7 @@ import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/data/models/post_model.dart';
 import 'package:facebook_replica/data/repos/posts_repo.dart';
 import 'package:facebook_replica/logic/events/post_event.dart';
-import 'package:facebook_replica/logic/states/post_state.dart';
+import 'package:facebook_replica/logic/states/postable_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostableBloc extends Bloc<PostEvent, PostableState> {
@@ -40,6 +40,11 @@ class PostableBloc extends Bloc<PostEvent, PostableState> {
         break;
       case PostEventType.error:
         yield PostableState(error: event.data);
+        break;
+      case PostEventType.add:
+        PostableState postState = event.data;
+        PostModel postModel = (postState.postable as PostModel);
+        yield PostableState(postable: postModel);
         break;
     }
   }

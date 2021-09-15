@@ -3,7 +3,7 @@ import 'package:facebook_replica/constants/constants.dart';
 import 'package:facebook_replica/helpers/helper_methods.dart';
 import 'package:facebook_replica/logic/blocs/user_bloc.dart';
 import 'package:facebook_replica/logic/events/user_event.dart';
-import 'package:facebook_replica/logic/states/post_state.dart';
+import 'package:facebook_replica/logic/states/postable_state.dart';
 import 'package:facebook_replica/logic/states/user_state.dart';
 import 'package:facebook_replica/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,8 @@ class _CommentItemState extends State<CommentItem> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UserAvatar(userAvatar: _userState?.user?.avatar ?? kDefaultUser),
+          UserAvatar(
+              userAvatar: _userState?.user?.avatar ?? kDefaultUserAvatar),
           SizedBox(
             width: 8,
           ),
