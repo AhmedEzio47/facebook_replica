@@ -36,120 +36,117 @@ class _CommentsState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PostableBloc, PostableState>(
-        builder: (context, state) => Container(
-          margin: kIsWeb ? null : const EdgeInsets.only(top: 16),
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(
-            children: [
-              ListView.builder(
-                padding: kIsWeb ? null : EdgeInsets.only(top: 64),
-                itemCount: (widget.post.postable as PostModel).comments?.length,
-                itemBuilder: (context, index) => BlocProvider(
-                  create: (context) => UserBloc(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CommentItem(
-                      comment: PostableState(
-                          postable: (widget.post.postable as PostModel)
-                              .comments?[index]),
-                    ),
+      body: Container(
+        margin: kIsWeb ? null : const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.all(8.0),
+        child: Stack(
+          children: [
+            ListView.builder(
+              padding: kIsWeb ? null : EdgeInsets.only(top: 64),
+              itemCount: (widget.post.postable as PostModel).comments?.length,
+              itemBuilder: (context, index) => BlocProvider(
+                create: (context) => UserBloc(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CommentItem(
+                    comment: PostableState(
+                        postable: (widget.post.postable as PostModel)
+                            .comments?[index]),
                   ),
                 ),
               ),
-              if (!kIsWeb)
-                Positioned.fill(
-                    child: Align(
-                  alignment: Alignment.topCenter,
+            ),
+            if (!kIsWeb)
+              Positioned.fill(
+                  child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        kLikesWidget((widget.post.postable as PostModel).likes),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(Icons.arrow_forward_ios)
+                      ],
+                    ),
+                    kDivider,
+                  ],
+                ),
+              )),
+            Positioned.fill(
+                bottom: MediaQuery.of(context).viewPadding.bottom,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          kLikesWidget(
-                              (widget.post.postable as PostModel).likes),
-                          SizedBox(
-                            width: 10,
+                      if (_focusNode.hasFocus)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            JumpingDots(),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Someone is writing a comment..',
+                              style: TextStyle(color: kGreyTextColor),
+                            )
+                          ],
+                        ),
+                      if (_focusNode.hasFocus)
+                        SizedBox(
+                          height: 5,
+                        ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(25)),
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: TextField(
+                            focusNode: _focusNode,
+                            autofocus: true,
+                            controller: _textEditingController,
+                            textInputAction: TextInputAction.go,
+                            onSubmitted: (text) => _submitComment(),
+                            onChanged: (text) {
+                              setState(() {
+                                _newComment = text;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                suffix: _newComment.isNotEmpty
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16),
+                                        child: InkWell(
+                                          onTap: _submitComment,
+                                          child: Icon(
+                                            Icons.send,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                                border: InputBorder.none,
+                                hintText: 'Write a comment',
+                                hintStyle: TextStyle(color: kGreyTextColor)),
                           ),
-                          Icon(Icons.arrow_forward_ios)
-                        ],
+                        ),
                       ),
-                      kDivider,
                     ],
                   ),
                 )),
-              Positioned.fill(
-                  bottom: MediaQuery.of(context).viewPadding.bottom,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (_focusNode.hasFocus)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              JumpingDots(),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Someone is writing a comment..',
-                                style: TextStyle(color: kGreyTextColor),
-                              )
-                            ],
-                          ),
-                        if (_focusNode.hasFocus)
-                          SizedBox(
-                            height: 5,
-                          ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(25)),
-                          margin: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: TextField(
-                              focusNode: _focusNode,
-                              autofocus: true,
-                              controller: _textEditingController,
-                              textInputAction: TextInputAction.go,
-                              onSubmitted: (text) => _submitComment(),
-                              onChanged: (text) {
-                                setState(() {
-                                  _newComment = text;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  suffix: _newComment.isNotEmpty
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 16),
-                                          child: InkWell(
-                                            onTap: _submitComment,
-                                            child: Icon(
-                                              Icons.send,
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )
-                                      : null,
-                                  border: InputBorder.none,
-                                  hintText: 'Write a comment',
-                                  hintStyle: TextStyle(color: kGreyTextColor)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ],
-          ),
+          ],
         ),
       ),
     );
